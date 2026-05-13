@@ -16,3 +16,6 @@
 git clone [https://github.com/your-username/repo.git](https://github.com/your-username/repo.git)
 cd repo
 make install
+
+基本コマンド
+app-name run "example"
