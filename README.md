@@ -1,22 +1,26 @@
 # se2026
 ソフトウェア工学
 
-# [ソフト名を入れる]
+# Simple Todo CLI 🚀
 
-[ソフトのキャッチコピー：例：爆速でXXXを管理するCLIツール]
+**ソフトウェア工学 演習プロジェクト**
 
-## 🚀 主な機能
-- **シンプル操作**: コマンド一つで[機能A]が完了
-- **軽量**: 依存関係を最小限に抑えた設計
-- **カスタマイズ**: 設定ファイルで挙動を変更可能
+日常のタスクをブラウザを開かずに、ターミナルから素早く管理するためのCLIツールです。
+
+---
+
+## ✨ 主な機能
+
+- **シンプル操作**: `add`, `list`, `done` の最小限のコマンドで操作。
+- **軽量・高速**: 依存関係を抑え、どんな環境でも瞬時に起動。
+- **自動保存**: 実行ディレクトリ内の `tasks.json` にデータを永続化。
+
+---
 
 ## 🛠 使い方
-### インストール
+
+### 1. インストール
+リポジトリをクローンして、ディレクトリに移動します。
 ```bash
-git clone [https://github.com/your-username/repo.git](https://github.com/your-username/repo.git)
-cd repo
-make install
-
-
-## 基本コマンド
-app-name run "example"
+git clone [https://github.com/ryo151/se2026.git](https://github.com/ryo151/se2026.git)
+cd se2026
