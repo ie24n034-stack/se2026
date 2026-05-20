@@ -1,18 +1,16 @@
-# se2026
-ソフトウェア工学
+## se2026
+# ソフトウェア工学（2026年度前期）の授業用repoです。
 
-# [ソフト名を入れる]
+## 進め方
+1. このrepoをForkする
+2. 自分のフォルダを作る
+3. 課題はそのフォルダにpush
 
-[ソフトのキャッチコピー：例：爆速でXXXを管理するCLIツール]
+## 構成
 
-## 🚀 主な機能
-- **シンプル操作**: コマンド一つで[機能A]が完了
-- **軽量**: 依存関係を最小限に抑えた設計
-- **カスタマイズ**: 設定ファイルで挙動を変更可能
-
-## 🛠 使い方
-### インストール
-```bash
-git clone [https://github.com/your-username/repo.git](https://github.com/your-username/repo.git)
-cd repo
-make install
+```
+se2026/
+|-- README.md          このファイル
+|-- chia_sensei/       参考フォルダ
+`-- your_name/　       学生用 
+```
