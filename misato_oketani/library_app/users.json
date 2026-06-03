@@ -1,0 +1,17 @@
+[
+  {
+    "user_id": "u1",
+    "name": "山田太郎",
+    "password": "1234"
+  },
+  {
+    "user_id": "u2",
+    "name": "桶谷みさと",
+    "password": "1129"
+  },
+  {
+    "user_id": "u3",
+    "name": "佐藤花子",
+    "password": "5678"
+  }
+]

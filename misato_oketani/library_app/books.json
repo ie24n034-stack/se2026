@@ -1,0 +1,23 @@
+[
+  {
+    "id": 1,
+    "title": "Python入門",
+    "author": "山田太郎",
+    "status": "貸出可能",
+    "return_date": ""
+  },
+  {
+    "id": 2,
+    "title": "アルゴリズム基礎",
+    "author": "佐藤花子",
+    "status": "貸出中",
+    "return_date": "5月30日"
+  },
+  {
+    "id": 3,
+    "title": "Java入門",
+    "author": "岡本太郎",
+    "status": "貸出可能",
+    "return_date": ""
+  }
+]
