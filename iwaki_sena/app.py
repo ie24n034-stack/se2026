@@ -87,9 +87,11 @@ def main():
                 print("エラー: 検索キーワードを入力してください。（例: search 宿題）")
                 continue
             print(f"\n--- 「{argument}」の検索結果 ---")
+
+            search_word = argument.lower()
             found = False
             for i, task in enumerate(tasks, 1):
-                if argument in task['title'] or argument in task['detail']:
+                if argument in task['title'].lower() or search_word in task['detail'].lower():
                     print(f"[{i}] {task['title']}")
                     found = True
             if not found:
