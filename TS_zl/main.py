@@ -171,9 +171,9 @@ def main():
         print(" 2:  タスクの状態（完了/未完了）を切り替える")
         print(" 3: ✏️ タスクを後から修正する")
         print(" 4: 🗑️ 完了したタスクを一括削除する")
-        print(" s1: 🔁 追加順に並び替え")
-        print(" s2: ⏳ 締め切り順に並び替え")
-        print(" s3: ⭐ 重要度順に並び替え")
+        print(" 5: 🔁 追加順に並び替え")
+        print(" 6: ⏳ 締め切り順に並び替え")
+        print(" 7: ⭐ 重要度順に並び替え")
         print(" q:  ❌ アプリを終了する")
         
         choice = input("\nメニューを選択してください: ").strip().lower()
@@ -186,11 +186,11 @@ def main():
             edit_todo()
         elif choice == "4":
             delete_completed()
-        elif choice == "s1":
+        elif choice == "5":
             current_sort = "id"
-        elif choice == "s2":
+        elif choice == "6":
             current_sort = "due_date"
-        elif choice == "s3":
+        elif choice == "7":
             current_sort = "important"
         elif choice == "q":
             print("\nアプリを終了します。お疲れ様でした！")
