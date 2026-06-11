@@ -32,10 +32,18 @@ while True:
 
     # タスク削除
     elif choice == "3":
+        if len(tasks) == 0:
+            print("タスクがありません")
+            continue
+
         for i, task in enumerate(tasks):
             print(f"{i}: {task['title']}")
 
-        index = int(input("削除する番号: "))
+        try:
+            index = int(input("削除する番号: "))
+        except ValueError:
+            print("数字を入力してください")
+            continue
 
         if 0 <= index < len(tasks):
             del tasks[index]
@@ -45,11 +53,19 @@ while True:
 
     # 完了切り替え
     elif choice == "4":
+        if len(tasks) == 0:
+            print("タスクがありません")
+            continue
+
         for i, task in enumerate(tasks):
             status = "完了" if task["done"] else "未完了"
             print(f"{i}: {task['title']} [{status}]")
 
-        index = int(input("変更する番号: "))
+        try:
+            index = int(input("変更する番号: "))
+        except ValueError:
+            print("数字を入力してください")
+            continue
 
         if 0 <= index < len(tasks):
             tasks[index]["done"] = not tasks[index]["done"]
