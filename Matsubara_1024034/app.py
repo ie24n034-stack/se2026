@@ -1,14 +1,17 @@
-import argparse, json, os, time, hashlib
+cat << 'EOF' > app.py
+import argparse, json, os, time, hashlib, re
 from datetime import datetime
 
 DATA_FILE = "storage.json"
 
-def format_time(s):
-    return f"{s//60}分{s%60}秒" if s >= 60 else f"{s}秒"
+def format_time(s): return f"{s//60}分{s%60}秒" if s >= 60 else f"{s}秒"
 
 def parse_time(t):
-    t = t.lower()
-    return int(t[:-1])*60 if t.endswith('m') else int(t[:-1]) if t.endswith('s') else int(t)
+    m = re.match(r'(?:(\d+)m)?(?:(\d+)s)?', t.lower().strip())
+    if m and (m.group(1) or m.group(2)):
+        return (int(m.group(1)) if m.group(1) else 0) * 60 + (int(m.group(2)) if m.group(2) else 0)
+    try: return int(t)
+    except: return 15
 
 def load_data():
     if os.path.exists(DATA_FILE):
@@ -21,25 +24,20 @@ def save_data(data):
 def hash_pw(pw): return hashlib.sha256(pw.encode()).hexdigest()
 
 def check_login(data):
-    if not data["current_user"]: print("エラー: ログインしてください。"); return False
-    return True
+    if not data["current_user"]: print("エラー: ログインしてください。")
+    return data["current_user"] is not None
 
 def cmd_register(args):
-    data = load_data()
-    name = input("ユーザー名: ")
+    data = load_data(); name = input("ユーザー名: ")
     if name in data["users"]: return print("エラー: 既に存在します。")
     data["users"][name] = {"password": hash_pw(input("パスワード: ")), "token": None}
-    save_data(data)
-    print(f"ユーザー '{name}' の登録が完了しました。")
+    save_data(data); print(f"ユーザー '{name}' の登録が完了しました。")
 
 def cmd_login(args):
-    data = load_data()
-    name, pw = input("ユーザー名: "), input("パスワード: ")
-    if data["users"].get(name, {}).get("password") == hash_pw(pw):
+    data = load_data(); name, pw = input("ユーザー名: "), input("パスワード: ")
+    if name in data["users"] and data["users"][name]["password"] == hash_pw(pw):
         data["users"][name]["token"] = hashlib.md5(str(time.time()).encode()).hexdigest()
-        data["current_user"] = name
-        save_data(data)
-        print(f"ログイン成功！ こんにちは、{name}さん。")
+        data["current_user"] = name; save_data(data); print(f"ログイン成功！ こんにちは、{name}さん。")
     else: print("エラー: ユーザー名またはパスワードが正しくありません。")
 
 def cmd_add(args):
@@ -47,8 +45,7 @@ def cmd_add(args):
     if not check_login(data): return
     t_id = len(data["tasks"]) + 1
     data["tasks"].append({"task_id": t_id, "title": args.title, "deadline": "2026-06-30", "priority": args.priority, "completed": False, "user": data["current_user"]})
-    save_data(data)
-    print(f"タスクを追加しました: [ID: {t_id}] {args.title}")
+    save_data(data); print(f"タスクを追加しました: [ID: {t_id}] {args.title}")
 
 def cmd_list(args):
     data = load_data()
@@ -76,8 +73,7 @@ def cmd_delete(args):
 def cmd_start(args):
     data = load_data()
     if not check_login(data): return
-    rem = parse_time(args.time)
-    dur, start_t = rem, datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    rem = parse_time(args.time); dur, start_t = rem, datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     print(f"タイマーを開始します ({format_time(rem)})... [Ctrl+C]で一時停止")
     try:
         while rem > 0: print(f"\r残り時間: {format_time(rem)}    ", end="", flush=True); time.sleep(1); rem -= 1
@@ -117,4 +113,4 @@ def main():
     else: parser.print_help()
 
 if __name__ == "__main__": main()
-    main()
+EOF
