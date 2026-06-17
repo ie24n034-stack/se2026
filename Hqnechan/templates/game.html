@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>メインゲーム画面</title>
+    <style>
+        body { background: #1a1a1a; color: #ffffff; font-family: monospace; padding: 20px; }
+        .layout { display: grid; grid-template-columns: 2fr 1fr; gap: 20px; }
+        .box { background: #262626; border: 2px solid #3a3a3a; padding: 20px; border-radius: 6px; }
+        .btn { background: #0f3460; color: #fff; border: none; padding: 12px; margin: 4px; cursor: pointer; font-weight: bold; border-radius: 4px; }
+        .btn:hover { background: #2161a0; }
+        #chat-area { background: #111; height: 120px; padding: 10px; overflow-y: auto; border: 1px solid #444; margin-bottom: 10px; color: #00ffcc; }
+    </style>
+</head>
+<body>
+    <h2>🌐 サーバー: {{ server_id }} | 👤 PLAYER: {{ player.username }}</h2>
+    
+    <div class="layout">
+        <div class="box">
+            <h3>🎮 メインゲーム画面（操作・同期）</h3>
+            <p>❤️ HP: {{ player.hp }} / 100</p>
+            <p>📍 同期座標: <strong style="color: #ff2a6d;">X = <span id="pos_x">{{ player.pos_x }}</span>, Y = <span id="pos_y">{{ player.pos_y }}</span></strong></p>
+            <hr style="border-color: #444;">
+            <p>【操作入力】ボタンを押すとサーバーDBへリアルタイム保存されます：</p>
+            <div style="text-align: center; width: 200px; margin: 0 auto;">
+                <button class="btn" onclick="move('up')" style="width: 100%;">⬆️ Up (Y+1)</button><br>
+                <button class="btn" onclick="move('left')">⬅️ Left</button>
+                <button class="btn" onclick="move('right')">Right ➡️</button><br>
+                <button class="btn" onclick="move('down')" style="width: 100%;">⬇️ Down (Y-1)</button>
+            </div>
+        </div>
+
+        <div class="box">
+            <h3>🎒 インベントリ</h3>
+            <ul>
+                {% for item in inventory %}
+                <li>📦 {{ item }}</li>
+                {% endfor %}
+            </ul>
+            <hr style="border-color: #444;">
+            <h3>💬 チャットログ（データ同期）</h3>
+            <div id="chat-area"></div>
+            <input type="text" id="chat-input" placeholder="メッセージを入力..." style="width: 70%; padding: 6px;">
+            <button onclick="sendChat()" style="padding: 6px;">送信</button>
+            <br><br>
+            <a href="/logout" style="color: #ff4444;">➔ サーバー切断（ログアウト）</a>
+        </div>
+    </div>
+
+    <script>
+        function move(direction) {
+            fetch('/api/move', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ direction: direction })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if(data.status === 'success') {
+                    document.getElementById('pos_x').innerText = data.new_x;
+                    document.getElementById('pos_y').innerText = data.new_y;
+                }
+            });
+        }
+
+        function sendChat() {
+            const input = document.getElementById('chat-input');
+            fetch('/api/chat', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ message: input.value })
+            })
+            .then(() => { input.value = ''; updateChat(); });
+        }
+
+        function updateChat() {
+            fetch('/api/chat')
+            .then(res => res.json())
+            .then(data => {
+                const area = document.getElementById('chat-area');
+                area.innerHTML = data.reverse().map(c => `[${c.time}] <b>${c.user}</b>: ${c.msg}`).join('<br>');
+            });
+        }
+        setInterval(updateChat, 3000);
+        updateChat();
+    </script>
+</body>
+</html>

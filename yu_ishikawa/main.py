@@ -33,8 +33,9 @@ def add_task(tasks):
     if not title:
         print("タスク名が空です。")
         return
-    new_id = max([t["id"] for t in tasks], default=0) + 1
-    tasks.append({"id": new_id, "title": title, "status": False})
+    
+    tasks.append({"id": 0, "title": title, "status": False})
+    renumber_tasks(tasks)
     save_tasks(tasks)
     print("追加しました。")
 
@@ -54,6 +55,7 @@ def delete_task(tasks):
         print("キャンセルしました。")
         return
     tasks.remove(target)
+    renumber_tasks(tasks)
     save_tasks(tasks)
     print("削除しました。")
 
@@ -73,6 +75,7 @@ def edit_task(tasks):
         print("タスク名が空です。")
         return
     target["title"] = new_title
+    renumber_tasks(tasks)
     save_tasks(tasks)
     print("編集しました。")
 
@@ -88,12 +91,13 @@ def toggle_status(tasks):
         print("そのIDのタスクはありません。")
         return
     target["status"] = not target["status"]
+    renumber_tasks(tasks)
     save_tasks(tasks)
     print("状態を変更しました。")
 
 def main():
     tasks = load_tasks()
-    tasks =renumber_tasks(tasks)
+    renumber_tasks(tasks)
     save_tasks(tasks)
     
     while True:
@@ -110,12 +114,16 @@ def main():
             list_tasks(tasks)
         elif choice == "2":
             add_task(tasks)
+            tasks = load_tasks()
         elif choice == "3":
             edit_task(tasks)
+            tasks = load_tasks()
         elif choice == "4":
             delete_task(tasks)
+            tasks = load_tasks()
         elif choice == "5":
             toggle_status(tasks)
+            tasks = load_tasks()
         elif choice == "0":
             print("終了します。")
             break

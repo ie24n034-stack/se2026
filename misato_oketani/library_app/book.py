@@ -22,6 +22,11 @@ def show_books():
 
 def search_book():
     keyword = input("検索ワード: ")
+    
+    if keyword.strip() == "":
+        print("検索ワードを入力してください")
+        return
+
     books = load_books()
 
     found = False
@@ -36,7 +41,7 @@ def search_book():
             found = True
 
     if not found:
-        print("見つかりませんでした")
+        print("該当する本が見つかりませんでした")
 
 
 def get_book_detail():
@@ -57,4 +62,4 @@ def get_book_detail():
             print("返却予定日:", b["return_date"])
             return
 
-    print("本が見つかりません")
+    print(f"本ID{book_id}は登録されていません")

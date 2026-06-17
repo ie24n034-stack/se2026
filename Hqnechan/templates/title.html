@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>Hqnechan Game Server</title>
+    <style>
+        body { background: #1a1a2e; color: #e2e2e2; font-family: 'Courier New', monospace; text-align: center; padding-top: 80px; }
+        .container { background: #16213e; padding: 30px; display: inline-block; border-radius: 10px; border: 3px solid #0f3460; box-shadow: 0 0 15px rgba(0,0,0,0.5); }
+        input, select, button { margin: 12px; padding: 10px; font-size: 16px; border-radius: 5px; border: none; }
+        input[type="text"] { width: 80%; background: #fff; color: #333; }
+        button { background: #e94560; color: white; font-weight: bold; cursor: pointer; width: 88%; }
+        button:hover { background: #ff6b81; }
+    </style>
+</head>
+<body>
+    <h1>🎮 MULTIPLAYER RPG SERVER 🎮</h1>
+    <div class="container">
+        <form action="/join_game" method="POST">
+            <h3>冒険者の名前（プレイヤーデータ作成）</h3>
+            <input type="text" name="username" placeholder="NAME" required><br>
+            
+            <h3>サーバー選択</h3>
+            <select name="server_id" style="width: 88%;">
+                <option value="HQ-SV1">Hqnechan 鯖1 (メイン) [快適]</option>
+                <option value="HQ-SV2">Hqnechan 鯖2 (テスト) [空いています]</option>
+            </select><br>
+            
+            <button type="submit">ワールドにログイン</button>
+        </form>
+    </div>
+</body>
+</html>
